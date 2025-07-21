@@ -4,8 +4,11 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoSuchElementException
 import pandas as pd
 import time
+
+from VeriShield_test.ProductCreation import df_url
 
 df_url=pd.read_excel(
     "Master data.xlsx",
@@ -13,17 +16,27 @@ df_url=pd.read_excel(
     header=None
 )
 
-chrome_options=Options()
-chrome_options.add_argument('--ignore-certificate-errors')
-chrome_options.add_argument('ignore-ssl-errors')
-chrome_options.add_argument('allow-insecure-localhost')
-chrome_options.add_argument('--disable-web-security')
-chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+dp=pd.read_excel(
+    "Master Data.xlsx",
+    sheet_name="Line Data",
+    dtype={
+        "Line number": str,
+    }
+)
 
-service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
+print("Available columns:", dp.columns.tolist())
 
-driver=webdriver.Chrome(service=service, options=chrome_options)
-wait=WebDriverWait(driver, 15)
+# chrome_options=Options()
+# chrome_options.add_argument('--ignore-certificate-errors')
+# chrome_options.add_argument('ignore-ssl-errors')
+# chrome_options.add_argument('allow-insecure-localhost')
+# chrome_options.add_argument('--disable-web-security')
+# chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+#
+# service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
+#
+# driver=webdriver.Chrome(service=service, options=chrome_options)
+# wait=WebDriverWait(driver, 15)
 
 masterdata_url=df_url.iloc[1, 0]
 login_url=df_url.iloc[0, 0]
@@ -55,12 +68,14 @@ def line_creation(driver, wait, loc_name, line_name, line_key, no_of_systems, sy
     wait.until(EC.element_to_be_clickable((By.XPATH, "//i[@title='New line']"))).click()
 
     wait.until(EC.element_to_be_clickable((By.ID, "line_name"))).send_keys(line_name)
-    driver.find_element(By.ID, "line_number").send_keys(line_key)
+    driver.find_element(By.ID, "line_number").clear()
+    driver.find_element(By.ID, "line_number").send_keys(int(line_key))
+    print(line_key)
 
     systems_tab = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Systems")))
     driver.execute_script("arguments[0].click();", systems_tab)
 
-    for i in range(no_of_systems-1):
+    for i in range(int(no_of_systems)-1):
         wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"input.button_add_window.certificatebottombutton.wide[value='Add system']"))).click()
 
     system_blocks = wait.until(
@@ -89,12 +104,41 @@ def line_creation(driver, wait, loc_name, line_name, line_key, no_of_systems, sy
 
     ok_button.click()
 
+    try:
+        alert_dialog = driver.find_element(By.CLASS_NAME, "ui-dialog-content")
+        if f"Line number {line_key} already exists for location {loc_name}." in alert_dialog.text:
+            print("⚠️ Duplicate subject detected.")
+            driver.find_element(By.XPATH, "//button[normalize-space(.)='OK']").click()
+            return
+    except NoSuchElementException:
+        pass
+
     time.sleep(5)
 
-driver.get(login_url)
-wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
-driver.find_element(By.NAME, "password").send_keys("tnt1234")
-driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
-line_creation(driver, wait, dp, "a", "b", "c", 3, ["PALLET_249", "PALLET_249", "PALLET_249"])
+# driver.get(login_url)
+# wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
+# driver.find_element(By.NAME, "password").send_keys("tnt1234")
+# driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
+
+# grouped = dp.groupby(['Location Number', 'Location Name', 'Line Name', 'Line number'])
+#
+# for (loc_no, loc_name, line_name, line_key), group_df in grouped:
+#     systems = group_df['System Type'].dropna().tolist()
+#     no_of_systems = len(systems)
+#
+#     print(f"⚙️ Creating line '{line_name}' for location '{loc_name}' with systems: {systems}")
+#
+#     try:
+#         line_creation(
+#             driver=driver,
+#             wait=wait,
+#             loc_name=loc_name,
+#             line_name=line_name,
+#             line_key=line_key,
+#             no_of_systems=no_of_systems,
+#             systems=["PALLET_249", "PALLET_249", "PALLET_249"]
+#         )
+#     except Exception as e:
+#         print(f"❌ Failed to create line for {loc_name} - {e}")
 
 time.sleep(5)

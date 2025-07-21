@@ -252,8 +252,8 @@ def location_thread():
             if location_count==3:
                 print("3 locations created, signaling product creation thread to start")
                 product_start_event.set()
-            if location_count == 6:
-                print("6 locations created, signaling line creation thread to start")
+            if location_count == 9:
+                print("9 locations created, signaling line creation thread to start")
                 line_start_event.set()
 
 

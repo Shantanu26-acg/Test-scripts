@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
 import time
 
 df_urls=pd.read_excel(
@@ -14,6 +15,25 @@ df_urls=pd.read_excel(
 )
 
 masterdata_url=df_urls.iloc[1, 0]
+login_url=df_urls.iloc[0, 0]
+
+dp=pd.read_excel("Master data.xlsx", sheet_name="Subject Master Data", engine="openpyxl", dtype={
+    "GLN": str,
+    "GS1 Company Prefix": str,
+    "Remarks": str
+})
+
+# chrome_options=Options()
+# chrome_options.add_argument('--ignore-certificate-errors')
+# chrome_options.add_argument('ignore-ssl-errors')
+# chrome_options.add_argument('allow-insecure-localhost')
+# chrome_options.add_argument('--disable-web-security')
+# chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+#
+# service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
+#
+# driver=webdriver.Chrome(service=service, options=chrome_options)
+# wait=WebDriverWait(driver, 15)
 
 # def subject_creation(driver, wait, subject_name, group, address, city, zip, state, country, gln, gs1):
 #     driver.get(masterdata_url)
@@ -138,3 +158,28 @@ def subject_creation(driver, wait, subject_name, group, address, city, zip, stat
 
         # 👇 Only run if no alert found
     remarks[0] = f"subject added on {datetime.today().strftime('%Y-%m-%d')}"
+
+# driver.get(login_url)
+# wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
+# driver.find_element(By.NAME, "password").send_keys("tnt1234")
+# driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
+# for idx, row in dp.iterrows():
+#     name = row['Subject Name']
+#     print(f"Creating subjects: {row['Subject Name']}")
+#
+#     remarks = [""]
+#
+#     subject_creation(driver, wait,
+#                      subject_name=name,
+#                      group=row['Subject Group'],
+#                      address=row['Address'],
+#                      city=row['City'],
+#                      zip=row['Zip'],
+#                      state=row['State'],
+#                      country=row['Country'],
+#                      gln=row['GLN'],
+#                      gs1=row['GS1 Company Prefix'],
+#                      remarks=remarks
+#                      )
+#
+#     time.sleep(5)

@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git 'https://github.com/Shantanu26-acg/Test-scripts.git'
+            }
+        }
+
+        stage('Run Specific Python Test') {
+            steps {
+                // Use 'python' or 'python3' based on your setup
+                sh 'python test_trial.py'
+            }
+        }
+    }
+}

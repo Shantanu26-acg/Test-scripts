@@ -8,6 +8,12 @@ pipeline {
             }
         }
 
+        stage('Check Python Version') {
+            steps {
+                bat 'python --version'
+            }
+        }
+
         stage('Run One Test File') {
             steps {
                 bat 'python POCreation.py'
@@ -15,3 +21,4 @@ pipeline {
         }
     }
 }
+

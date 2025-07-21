@@ -4,14 +4,13 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/Shantanu26-acg/Test-scripts.git'
+                git branch: 'main', url: 'https://github.com/Shantanu26-acg/Test-scripts.git'
             }
         }
 
-        stage('Run Specific Python Test') {
+        stage('Run One Test File') {
             steps {
-                // Use 'python' or 'python3' based on your setup
-                sh 'python test_trial.py'
+                sh 'python POCreation.py'
             }
         }
     }

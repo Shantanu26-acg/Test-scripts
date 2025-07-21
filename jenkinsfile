@@ -10,13 +10,13 @@ pipeline {
 
         stage('Check Python Version') {
             steps {
-                bat 'C:\Users\Shantanu\AppData\Local\Programs\Python\Python313\python.exe'
+                bat 'C:/Users/Shantanu/AppData/Local/Programs/Python/Python313/python.exe'
             }
         }
 
         stage('Run One Test File') {
             steps {
-                bat 'C:\Users\Shantanu\AppData\Local\Programs\Python\Python313\python.exe POCreation.py'
+                bat 'C:/Users/Shantanu/AppData/Local/Programs/Python/Python313/python.exe POCreation.py'
             }
         }
     }

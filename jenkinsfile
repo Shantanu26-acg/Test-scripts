@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run One Test File') {
             steps {
-                sh 'python POCreation.py'
+                bat 'python POCreation.py'
             }
         }
     }

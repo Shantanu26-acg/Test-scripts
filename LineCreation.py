@@ -8,8 +8,6 @@ from selenium.common.exceptions import NoSuchElementException
 import pandas as pd
 import time
 
-from VeriShield_test.ProductCreation import df_url
-
 df_url=pd.read_excel(
     "Master data.xlsx",
     sheet_name="URLs",

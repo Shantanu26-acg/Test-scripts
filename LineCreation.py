@@ -13,17 +13,17 @@ df_url=pd.read_excel(
     header=None
 )
 
-# chrome_options=Options()
-# chrome_options.add_argument('--ignore-certificate-errors')
-# chrome_options.add_argument('ignore-ssl-errors')
-# chrome_options.add_argument('allow-insecure-localhost')
-# chrome_options.add_argument('--disable-web-security')
-# chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-#
-# service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
-#
-# driver=webdriver.Chrome(service=service, options=chrome_options)
-# wait=WebDriverWait(driver, 15)
+chrome_options=Options()
+chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('ignore-ssl-errors')
+chrome_options.add_argument('allow-insecure-localhost')
+chrome_options.add_argument('--disable-web-security')
+chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+
+service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
+
+driver=webdriver.Chrome(service=service, options=chrome_options)
+wait=WebDriverWait(driver, 15)
 
 masterdata_url=df_url.iloc[1, 0]
 login_url=df_url.iloc[0, 0]
@@ -91,10 +91,10 @@ def line_creation(driver, wait, loc_name, line_name, line_key, no_of_systems, sy
 
     time.sleep(5)
 
-# driver.get(login_url)
-# wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
-# driver.find_element(By.NAME, "password").send_keys("tnt1234")
-# driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
-# line_creation(driver, wait, dp, "a", "b", "c", 3, ["PALLET_249", "PALLET_249", "PALLET_249"])
-#
-# time.sleep(5)
+driver.get(login_url)
+wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
+driver.find_element(By.NAME, "password").send_keys("tnt1234")
+driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
+line_creation(driver, wait, dp, "a", "b", "c", 3, ["PALLET_249", "PALLET_249", "PALLET_249"])
+
+time.sleep(5)

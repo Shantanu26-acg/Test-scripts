@@ -10,7 +10,7 @@ pipeline {
 
         stage('Check Python Version') {
             steps {
-                bat 'python --version'
+                bat 'C:\Users\Shantanu\AppData\Local\Programs\Python\Python313\python.exe'
             }
         }
 

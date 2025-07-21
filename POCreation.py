@@ -11,16 +11,16 @@ import time
 import random
 import pandas as pd
 
-# chrome_options=Options()
-# chrome_options.add_argument('--ignore-certificate-errors')
-# chrome_options.add_argument('--ignore-ssl-errors')
-# chrome_options.add_argument('--allow-insecure-localhost')
-# chrome_options.add_argument('--disable-web-security')
-# chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-#
-# service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
-# driver=webdriver.Chrome(service=service, options=chrome_options)
-# wait=WebDriverWait(driver, 15)
+chrome_options=Options()
+chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('--ignore-ssl-errors')
+chrome_options.add_argument('--allow-insecure-localhost')
+chrome_options.add_argument('--disable-web-security')
+chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+
+service=Service(r"C:\Users\Shantanu\Downloads\chromedriver-win32\chromedriver.exe")
+driver=webdriver.Chrome(service=service, options=chrome_options)
+wait=WebDriverWait(driver, 15)
 
 df_urls=pd.read_excel(
     "Master data.xlsx",
@@ -171,21 +171,21 @@ def create_po(driver, wait, po_name, serial_numbers_provider, product_name, pack
 
 
 
-# driver.get("https://172.16.70.109/login/")
-# wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
-# driver.find_element(By.NAME, "password").send_keys("tnt1234")
-# driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
-#
-# po_name=df.loc[0, "PO Name"]
-# serial_numbers_provider=df.loc[0, "Serial Numbers Provider"]
-# product_name=df.loc[0, "Product"]
-# packaging_version=df.loc[0, "Packaging Version"]
-# lot_number=df.loc[0, "Lot/Batch Number"]
-# production_date=df.loc[0, "Production Date"]
-# mfg_date=df.loc[0, "MFG Date"]
-# expiration_date=df.loc[0, "Expiration Date"]
-# regulation=df.loc[0, "Regulation"]
-# manufacturing_location=df.loc[0, "Manufacturing Location"]
-# production_line=df.loc[0, 'Production Line']
-# create_po(driver, wait, po_name, serial_numbers_provider, product_name, packaging_version, lot_number, production_date, mfg_date, expiration_date, regulation, manufacturing_location, 100, production_line)
-# time.sleep(5)
+driver.get("https://172.16.70.109/login/")
+wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("shantanu")
+driver.find_element(By.NAME, "password").send_keys("tnt1234")
+driver.find_element(By.XPATH, "//input[@type='submit' and @value='Login']").click()
+
+po_name=df.loc[0, "PO Name"]
+serial_numbers_provider=df.loc[0, "Serial Numbers Provider"]
+product_name=df.loc[0, "Product"]
+packaging_version=df.loc[0, "Packaging Version"]
+lot_number=df.loc[0, "Lot/Batch Number"]
+production_date=df.loc[0, "Production Date"]
+mfg_date=df.loc[0, "MFG Date"]
+expiration_date=df.loc[0, "Expiration Date"]
+regulation=df.loc[0, "Regulation"]
+manufacturing_location=df.loc[0, "Manufacturing Location"]
+production_line=df.loc[0, 'Production Line']
+create_po(driver, wait, po_name, serial_numbers_provider, product_name, packaging_version, lot_number, production_date, mfg_date, expiration_date, regulation, manufacturing_location, 100, production_line)
+time.sleep(5)
